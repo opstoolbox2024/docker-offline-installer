@@ -14,13 +14,10 @@ check_version() {
 
     # 遍历架构并检查文件是否可以下载
     for ARCH in "${ARCH_LIST[@]}"; do
-        TARGET_FILE="${DOWNLOAD_DIR}/${ARCH}/docker.tgz"
         DOWNLOAD_URL="${BASE_URL}/${ARCH}/docker-${version}.tgz"
         
-        # 使用 wget 检查文件是否存在
-        wget --spider "$DOWNLOAD_URL" &>/dev/null
-        
-        if [[ $? -eq 0 ]]; then
+        # 使用 curl --head 检查文件是否存在
+        if curl --head --silent --fail "$DOWNLOAD_URL" >/dev/null; then
             success=1
         fi
     done
@@ -75,8 +72,8 @@ for ARCH in "${ARCH_LIST[@]}"; do
 
     echo "准备下载 ${ARCH} 架构的 Docker 二进制包：$DOWNLOAD_URL"
 
-    # 使用 wget 下载
-    wget -O "$TARGET_FILE" "$DOWNLOAD_URL"
+    # 使用 curl 进行下载
+    curl -L -o "$TARGET_FILE" "$DOWNLOAD_URL"
 
     if [[ $? -eq 0 ]]; then
         echo "Docker 二进制包下载成功，文件保存在 ${TARGET_FILE}"
@@ -87,4 +84,3 @@ for ARCH in "${ARCH_LIST[@]}"; do
 done
 
 echo "所有架构的 Docker 二进制包下载完成！"
-
