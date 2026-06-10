@@ -47,7 +47,7 @@ cp -rf docker/* /usr/bin/
 # 复制 systemd 服务和 socket 文件
 echo "正在配置 systemd 服务和 socket 文件..."
 cp -rf "$SCRIPT_DIR/docker.service" /etc/systemd/system/
-cp -rf "$SCRIPT_DIR/docker.socket" /etc/systemd/system/
+#cp -rf "$SCRIPT_DIR/docker.socket" /etc/systemd/system/
 
 # 提示用户输入 Docker 数据存储路径，默认是 /var/lib/docker
 echo -n "请输入 Docker 数据存储路径（默认：/var/lib/docker）："
